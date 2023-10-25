@@ -1,4 +1,3 @@
-using System.Text;
 using Moq;
 
 namespace FindDups.Tests;
@@ -6,23 +5,54 @@ namespace FindDups.Tests;
 [TestFixture]
 public class FileHasherTests
 {
+    private Mock<IFileReader>? _mockFileReader;
+    private FileHasher? _fileHasher;
+    private string? _tempFilePath;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _mockFileReader = new Mock<IFileReader>();
+        _fileHasher = new FileHasher(_mockFileReader.Object);
+    }
+
     [Test]
-    public void ComputeFileHash_ShouldReturnExpectedHash_ForGivenFile()
+    public void ComputeFileHash_ShouldReturnExpectedMD5Hash_ForGivenFileContent()
     {
         // Arrange
-        var mockFileReader = new Mock<IFileReader>();
-        
-        var mockFileContent = "dummy_path"u8.ToArray();
-        mockFileReader.Setup(fr => fr.ReadAllBytes(It.IsAny<string>())).Returns(mockFileContent);
+        var content = "dummy_content"u8.ToArray();
+        _tempFilePath = Path.GetTempFileName();
+        File.WriteAllBytes(_tempFilePath, content);
+        _mockFileReader?.Setup(fr => 
+            fr
+            .OpenFileForRead(
+        It
+            .IsAny<string>()))
+            .Returns(new 
+                FileStream(
+                    _tempFilePath, 
+                    FileMode.Open, 
+                    FileAccess.Read, 
+                    FileShare.Read, 
+                    4096, 
+                    FileOptions.DeleteOnClose));
 
-        FileHasher.SetFileReader(mockFileReader.Object);
-
-        const string expectedHash = "f9ff3effe6bd6674e293e57fba89891bb576bb23876bf0997748f5bb41b0bb25";
+        // Expected MD5 hash for "dummy_content"
+        const string expectedHash = "1be4338df03bd55ba2d3b951d0d13d58";
 
         // Act
-        var actualHash = FileHasher.ComputeFileHash("dummy_path");
+        var sut = _fileHasher?.ComputeFileHash("dummy_path");
 
         // Assert
-        actualHash.Should().Be(expectedHash);
+        sut.Should().Be(expectedHash);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        if (File.Exists(_tempFilePath))
+        {
+            File.Delete(_tempFilePath);
+        }
     }
 }
