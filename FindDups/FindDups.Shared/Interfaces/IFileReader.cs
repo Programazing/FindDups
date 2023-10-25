@@ -2,5 +2,6 @@ namespace FindDups.Shared.Interfaces;
 
 public interface IFileReader
 {
-	byte[] ReadAllBytes(string filePath);
+	FileStream OpenFileForRead(string path);
+	byte[] ReadFirstBytes(string filePath, int byteCount);
 }
