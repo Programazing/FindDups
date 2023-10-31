@@ -15,7 +15,9 @@ public class DuplicateFinderService
         
         _fileReader = new FileReader();
         _fileHasher = new FileHasher(_fileReader);
-        _directoryScanner = new DirectoryScanner();
+        
+        var directoryProvider = new DirectoryProvider();
+        _directoryScanner = new DirectoryScanner(directoryProvider);
     }
     
     public Dictionary<string, List<string>> FindDuplicates()
