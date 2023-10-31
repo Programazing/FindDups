@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindDups.Shared", "FindDups.Shared\FindDups.Shared.csproj", "{A03558FD-4122-4808-94EC-6A5B72455328}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyCatcher.Shared", "CopyCatcher.Shared\CopyCatcher.Shared.csproj", "{A03558FD-4122-4808-94EC-6A5B72455328}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindDups.Tests", "FindDups.Tests\FindDups.Tests.csproj", "{A2535079-B0CF-45F1-A9C1-DA8A86D91D61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyCatcher.Tests", "CopyCatcher.Tests\CopyCatcher.Tests.csproj", "{A2535079-B0CF-45F1-A9C1-DA8A86D91D61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
