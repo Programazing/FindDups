@@ -1,4 +1,4 @@
-namespace FindDups.Shared;
+namespace CopyCatcher.Shared;
 
 using System;
 using System.Security.Cryptography;

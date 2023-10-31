@@ -4,6 +4,8 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <AssemblyName>CopyCatcher.Shared</AssemblyName>
+        <RootNamespace>CopyCatcher.Shared</RootNamespace>
     </PropertyGroup>
 
 </Project>

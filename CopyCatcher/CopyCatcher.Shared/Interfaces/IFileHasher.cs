@@ -1,4 +1,4 @@
-namespace FindDups.Shared.Interfaces;
+namespace CopyCatcher.Shared.Interfaces;
 
 public interface IFileHasher
 {

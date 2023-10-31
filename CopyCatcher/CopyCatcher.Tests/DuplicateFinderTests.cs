@@ -1,6 +1,6 @@
 using Moq;
 
-namespace FindDups.Tests;
+namespace CopyCatcher.Tests;
 
 [TestFixture]
 public class DuplicateFinderTests
