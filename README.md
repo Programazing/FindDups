@@ -131,10 +131,11 @@ How It Works
 <!-- TOC --><a name="components"></a>
 ### Components
 
--   FileReader: Reads files from the file system.
--   FileHasher: Computes a hash value for each file to determine duplicates.
--   DirectoryScanner: Scans the specified directory and retrieves a list of all files.
--   DuplicateFinderService: The main service that ties all components together and provides an easy-to-use interface for finding duplicates.
+-   **FileReader**: Reads files from the file system.
+-   **FileHasher**: Computes a hash value for each file to determine duplicates.
+-   **DirectoryScanner**: Scans the specified directory and retrieves a list of all files. It uses the `DirectoryProvider` to access the file system, ensuring better testability and separation of concerns.
+-   **DirectoryProvider**: Provides direct access to the file system, used by `DirectoryScanner`.
+-   **DuplicateFinderService**: The main service that ties all components together and provides an easy-to-use interface for finding duplicates.
 
 <!-- TOC --><a name="workflow"></a>
 ### Workflow
