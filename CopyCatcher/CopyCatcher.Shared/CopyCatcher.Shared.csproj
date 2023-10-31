@@ -12,6 +12,9 @@
         <PackageProjectUrl>https://github.com/Programazing/CopyCatcher</PackageProjectUrl>
         <PackageLicenseUrl>MIT</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/Programazing/CopyCatcher</RepositoryUrl>
+        <Title>CopyCatcher</Title>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Description>Copy Catcher is a cutting-edge library designed to swiftly and efficiently identify duplicate files within a specified directory. Harnessing the power of modern computing techniques, Copy Catcher ensures that your storage remains free of redundant data.</Description>
     </PropertyGroup>
 
 </Project>
