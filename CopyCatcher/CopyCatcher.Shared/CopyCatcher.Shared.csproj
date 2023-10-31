@@ -6,6 +6,12 @@
         <Nullable>enable</Nullable>
         <AssemblyName>CopyCatcher.Shared</AssemblyName>
         <RootNamespace>CopyCatcher.Shared</RootNamespace>
+        <PackageId>CopyCatcher</PackageId>
+        <Authors>Programazing</Authors>
+        <Copyright>2023</Copyright>
+        <PackageProjectUrl>https://github.com/Programazing/CopyCatcher</PackageProjectUrl>
+        <PackageLicenseUrl>MIT</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/Programazing/CopyCatcher</RepositoryUrl>
     </PropertyGroup>
 
 </Project>

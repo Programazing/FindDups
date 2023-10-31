@@ -1,4 +1,6 @@
-namespace CopyCatcher.Shared;
+using CopyCatcher.Shared;
+
+namespace CopyCatcher;
 
 public class DuplicateFinderService
 {
