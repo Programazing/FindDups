@@ -11,6 +11,7 @@ Table of Contents:
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
     - [Integration](#integration)
+    - [Hash Algorithms](#algorithms)
     - [Output](#output)
     - [Console App Example](#console-app-example)
 - [Components](#components)
@@ -22,21 +23,17 @@ Table of Contents:
 Overview
 --------
 
-`Copy Catcher` is a NuGet package designed to identify and list duplicate files within a specified directory. It uses advanced techniques and optimizations to ensure efficient and accurate detection of files with identical content.
+`Copy Catcher` is a NuGet package designed to identify and list duplicate files within specified directories. It uses advanced techniques and optimizations to ensure efficient and accurate detection of files with identical content.
 
 <!-- TOC --><a name="keybenefits"></a>
 Key Benefits & Features
 -----------------------
 
--   Buffered Reading: `Copy Catcher` uses buffered reading to efficiently read large files in chunks, reducing memory usage and enhancing performance.
-
--   Asynchronous Operations: The package is designed to leverage asynchronous operations, ensuring non-blocking I/O operations. This results in a smoother user experience, especially when dealing with large directories or files.
-
--   Early Byte Exiting: Before hashing the entire file, `Copy Catcher` checks the initial bytes of files. If two files have different initial bytes, they are immediately identified as distinct, saving computational resources.
-
--   Chunk Hashing: Instead of hashing the entire file in one go, `Copy Catcher` hashes files in chunks. This approach is more memory-efficient and allows for faster identification of large duplicate files.
-
--   Parallelism: The package employs parallel processing to scan and hash multiple files concurrently. This takes full advantage of multi-core processors, drastically reducing the time required to identify duplicates in large directories.
+- **Buffered Reading**: Efficiently reads large files in chunks, reducing memory usage and enhancing performance.
+- **Asynchronous Operations**: Leverages async operations to ensure non-blocking I/O, resulting in a smoother user experience.
+- **Early Byte Exiting**: Checks initial bytes of files before hashing to quickly identify distinct files and save computational resources.
+- **Chunk Hashing**: Hashes files in chunks, allowing for memory-efficient and faster identification of large duplicate files.
+- **Parallelism**: Employs parallel processing to scan and hash multiple files concurrently, taking full advantage of multi-core processors.
 
 <!-- TOC --><a name="gettingstarted"></a>
 Getting Started
@@ -72,30 +69,42 @@ Usage
 In your .NET project, add the following using directive:
 
 ```csharp
-using CopyCatcher.Shared;
+using CopyCatcher;
 ```
 
-Create an instance of the `DuplicateFinderService`:
+Create an instance of the `CopyCatcherService` and call the `FindDuplicatesAsync` method:
 
 ```csharp
-var service = new DuplicateFinderService("path/to/directory");
+var service = new CopyCatcherService();
+var duplicates = await service.FindDuplicatesAsync(new List<string> { "path/to/directory1", "path/to/directory2" }, HashAlgorithmType.SHA256, 4096);
 ```
 
-Call the `FindDuplicates` method:
+`FindDuplicatesAsync` will accept a string array of directories as the bare minimum. The method also accepts two optional parameters: `HashType` and `ChunkSize` to allow the user some control over the hashing algorithm and chunk size used for hashing.
 
-```csharp
-var duplicates = service.FindDuplicates();
-```
+<!-- TOC --><a name="algorithms"></a>
+### Hash Algorithms
+
+At the moment the following hash algorithms are supported:
+- MD5 (Default)
+- SHA1
+- SHA256
+- SHA384
+- SHA512
 
 <!-- TOC --><a name="output"></a>
 ### Output
 
-The `FindDuplicates` method will return a dictionary where keys are hash values and values are lists of file paths that have the same hash:
+The `FindDuplicatesAsync` method will return a list of `DuplicateSet` objects, where each set contains the directory, hash value, hash algorithm, and list of file paths that have the same hash:
 
 ```csharp
 {
-    "abc123def456": ["path/to/duplicate1.txt", "path/to/duplicate2.txt"],
-    ...
+    public class DuplicateSet
+    {
+        public string Directory { get; set; }
+        public string Hash { get; set; }
+        public HashAlgorithmType HashAlgorithm { get; set; }
+        public List<string> Files { get; set; }
+    }
 }
 ```
 
@@ -106,22 +115,48 @@ A simple .NET Console app using Copy Catcher would look like this:
 
 ```csharp
 using CopyCatcher;
+using System.Diagnostics;
 
-Console.WriteLine("Enter the directory path:");
-var directoryPath = Console.ReadLine();
+Console.WriteLine("Please provide directory paths separated by a comma:");
+var input = Console.ReadLine();
 
-// Initialize the service and find duplicates
-var duplicateFinderService = new DuplicateFinderService(directoryPath);
-var duplicates = duplicateFinderService.FindDuplicates();
-
-// Display results
-foreach (var duplicate in duplicates)
+if (string.IsNullOrWhiteSpace(input))
 {
-    Console.WriteLine($"Hash: {duplicate.Key}");
-    foreach (var filePath in duplicate.Value)
+    Console.WriteLine("No directory paths provided.");
+    return;
+}
+
+var directoryPaths = input.Split(',').Select(path => path.Trim()).ToList();
+
+HashAlgorithmType hashAlgorithm = HashAlgorithmType.MD5;
+int chunkSize = 4096;
+
+var service = new CopyCatcherService();
+
+var stopwatch = Stopwatch.StartNew();
+var duplicates = await service.FindDuplicatesAsync(directoryPaths, hashAlgorithm, chunkSize);
+stopwatch.Stop();
+
+if (duplicates.Any())
+{
+    foreach (var duplicateSet in duplicates)
     {
-        Console.WriteLine($" - {filePath}");
+        Console.WriteLine($"Directory: {duplicateSet.Directory}");
+        Console.WriteLine($"Hash: {duplicateSet.HashAlgorithm}");
+        Console.WriteLine($"HashKey: {duplicateSet.Hash}");
+        Console.WriteLine("Files:");
+        foreach (var file in duplicateSet.Files)
+        {
+            Console.WriteLine(file);
+        }
+        Console.WriteLine();
     }
+
+    Console.WriteLine($"Found {duplicates.Count} sets of duplicates in {stopwatch.Elapsed.TotalSeconds:0.##} seconds.\n");
+}
+else
+{
+    Console.WriteLine($"No duplicates found in {stopwatch.Elapsed.TotalSeconds:0.##} seconds.");
 }
 ```
 
@@ -131,16 +166,16 @@ How It Works
 <!-- TOC --><a name="components"></a>
 ### Components
 
--   **FileReader**: Reads files from the file system.
--   **FileHasher**: Computes a hash value for each file to determine duplicates.
--   **DirectoryScanner**: Scans the specified directory and retrieves a list of all files. It uses the `DirectoryProvider` to access the file system, ensuring better testability and separation of concerns.
--   **DirectoryProvider**: Provides direct access to the file system, used by `DirectoryScanner`.
--   **DuplicateFinderService**: The main service that ties all components together and provides an easy-to-use interface for finding duplicates.
+-   **CopyCatcherService**: The main service that ties all components together and provides an easy-to-use interface for finding duplicates.**
+-   **DirectoryScanner**: Scans the specified directory and retrieves a list of all files.
+-   **DuplicateFinder**: Finds duplicate files using the above components.
+-   **DuplicateSet**: Represents a set of duplicate files with the same hash value.
+-   **FileHasher**:  Computes a hash value for each file using chunk-based hashing.
 
 <!-- TOC --><a name="workflow"></a>
 ### Workflow
 
-1.  The user specifies a directory to be scanned.
-2.  `DirectoryScanner` retrieves a list of all files in the directory.
-3.  `FileHasher` computes a hash for each file.
-4.  Duplicate files are identified based on their hash values and returned in a dictionary.
+1.  The user specifies the directories to be scanned.
+2.  `DirectoryScanner` retrieves a list of all files in the directories.
+3.  `FileHasher` computes a hash for each file using the specified hash algorithm.
+4.  Duplicate files are identified based on their hash values and returned in a list of `DuplicateSet` objects.

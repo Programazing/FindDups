@@ -1,11 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>CopyCatcher.Shared</AssemblyName>
-        <RootNamespace>CopyCatcher.Shared</RootNamespace>
         <PackageId>CopyCatcher</PackageId>
         <Authors>Programazing</Authors>
         <Copyright>2023</Copyright>
@@ -16,7 +14,9 @@
         <Title>CopyCatcher</Title>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Description>Copy Catcher is a cutting-edge library designed to swiftly and efficiently identify duplicate files within a specified directory. Harnessing the power of modern computing techniques, Copy Catcher ensures that your storage remains free of redundant data.</Description>
-        <Version>1.0.0-alpha</Version>
+        <Version>1.0.0-beta</Version>
+        <PackageLicenseUrl></PackageLicenseUrl>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
     <ItemGroup>

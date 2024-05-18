@@ -1,8 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyCatcher.Shared", "CopyCatcher.Shared\CopyCatcher.Shared.csproj", "{A03558FD-4122-4808-94EC-6A5B72455328}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyCatcher", "CopyCatcher\CopyCatcher.csproj", "{A03558FD-4122-4808-94EC-6A5B72455328}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyCatcher.Tests", "CopyCatcher.Tests\CopyCatcher.Tests.csproj", "{A2535079-B0CF-45F1-A9C1-DA8A86D91D61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{2EC40A85-9968-4F78-8E34-7BBA5BFACDCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +20,9 @@ Global
 		{A2535079-B0CF-45F1-A9C1-DA8A86D91D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2535079-B0CF-45F1-A9C1-DA8A86D91D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2535079-B0CF-45F1-A9C1-DA8A86D91D61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EC40A85-9968-4F78-8E34-7BBA5BFACDCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EC40A85-9968-4F78-8E34-7BBA5BFACDCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EC40A85-9968-4F78-8E34-7BBA5BFACDCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EC40A85-9968-4F78-8E34-7BBA5BFACDCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
