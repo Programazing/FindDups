@@ -85,7 +85,7 @@ var duplicates = await service.FindDuplicatesAsync(new List<string> { "path/to/d
 ### Hash Algorithms
 
 At the moment the following hash algorithms are supported:
-- MD5
+- MD5 (Default)
 - SHA1
 - SHA256
 - SHA384
