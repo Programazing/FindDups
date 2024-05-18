@@ -11,6 +11,7 @@ Table of Contents:
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
     - [Integration](#integration)
+    - [Hash Algorithms](#algorithms)
     - [Output](#output)
     - [Console App Example](#console-app-example)
 - [Components](#components)
@@ -77,6 +78,18 @@ Create an instance of the `CopyCatcherService` and call the `FindDuplicatesAsync
 var service = new CopyCatcherService();
 var duplicates = await service.FindDuplicatesAsync(new List<string> { "path/to/directory1", "path/to/directory2" }, HashAlgorithmType.SHA256, 4096);
 ```
+
+`FindDuplicatesAsync` will accept a string array of directories as the bare minimum. The method also accepts two optional parameters: `HashType` and `ChunkSize` to allow the user some control over the hashing algorithm and chunk size used for hashing.
+
+<!-- TOC --><a name="algorithms"></a>
+### Hash Algorithms
+
+At the moment the following hash algorithms are supported:
+- MD5
+- SHA1
+- SHA256
+- SHA384
+- SHA512
 
 <!-- TOC --><a name="output"></a>
 ### Output
@@ -153,7 +166,7 @@ How It Works
 <!-- TOC --><a name="components"></a>
 ### Components
 
--   **CopyCatcherService: The main service that ties all components together and provides an easy-to-use interface for finding duplicates.**
+-   **CopyCatcherService**: The main service that ties all components together and provides an easy-to-use interface for finding duplicates.**
 -   **DirectoryScanner**: Scans the specified directory and retrieves a list of all files.
 -   **DuplicateFinder**: Finds duplicate files using the above components.
 -   **DuplicateSet**: Represents a set of duplicate files with the same hash value.
